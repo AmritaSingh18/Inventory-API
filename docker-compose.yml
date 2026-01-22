@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  api:
+    build: .
+    container_name: fastapi_inventory_api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+    restart: always
+
+  mysql:
+    image: mysql:8.0
+    container_name: inventory_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: inventory_db
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+
+volumes:
+  mysql_data:
